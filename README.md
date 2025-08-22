@@ -12,6 +12,10 @@ Unity 프로젝트의 자산(Asset)을 통합 관리하는 시스템입니다. U
 
 ### 인스턴스화
 
+```csharp
+// Resources 폴더의 프리팹을 인스턴스화
+_ = await GameAssetManager.Instance.InstantiateAsync("ResourcesPrefab");
+```
 ```mermaid
 sequenceDiagram
     participant UserCode as 유저 코드
@@ -32,15 +36,26 @@ sequenceDiagram
     deactivate GameAssetManager
 ```
 
+### 로드
+```csharp
+// Addressables 자산을 로드(로드된 자산의 수명이 해당 게임 오브젝트의 수명에 종속됩니다.)
+_ = await GameAssetManager.Instance.LoadAsync<Material>(
+    "Assets/ApeSamples/GameAsset/Addressables/AddressableMaterial.mat", gameObject);
+```
+
 ### 전체 해제
 
+```csharp
+// 모든 자산을 한 번에 언로드
+await GameAssetManager.Instance.UnloadAllAsync();
+```
 ```mermaid
 sequenceDiagram
     participant UserCode as 유저 코드
     participant GameAssetManager
     participant AssetHandleReleaserBase
 
-    UserCode->>GameAssetManager: UnloadAll()
+    UserCode->>GameAssetManager: UnloadAllAsync()
     activate GameAssetManager
     GameAssetManager->>AssetHandleReleaserBase: ReleaseHandles()
     activate AssetHandleReleaserBase
@@ -69,47 +84,37 @@ sequenceDiagram
     deactivate AssetHandleReleaserBase
 ```
 
-### 사용법
-````
-// Resources 폴더의 프리팹을 인스턴스화
-_ = await GameAssetManager.Instance.InstantiateAsync("ResourcesPrefab");
-
-// Addressables 자산을 로드(로드된 자산의 수명이 해당 게임 오브젝트의 수명에 종속됩니다.)
-_ = await GameAssetManager.Instance.LoadAsync<Material>(
-    "Assets/ApeSamples/GameAsset/Addressables/AddressableMaterial.mat", gameObject);
-
-// 모든 자산을 한 번에 언로드
-await GameAssetManager.Instance.UnloadAllAsync();
-````
-
 ***
 
 ## GameScene: 씬 통합 관리
-통합 씬 로드: Built-in 씬과 Addressables 씬을 동일한 방식으로 관리합니다.
-안정적인 동시성 제어: 여러 씬 작업이 동시에 발생하는 것을 방지합니다.
-인스펙터 기반 UI: 런타임 정보를 인스펙터 창에서 실시간으로 확인할 수 있습니다.
+유니티씬을 관리합니다.
+* 통합 씬 로드: Built-in 씬과 Addressables 씬을 동일한 방식으로 관리합니다.
+* 안정적인 동시성 제어: 여러 씬 작업이 동시에 발생하는 것을 방지합니다.
+* 인스펙터 기반 UI: 런타임 정보를 인스펙터 창에서 실시간으로 확인할 수 있습니다.
 
 
-### 사용법
-````
+### 씬 로드
+```csharp
 // 빌트인 씬 로드
 await GameSceneManager.Instance.LoadAdditiveAsync("ApeSamples/GameScenes/BuiltinScenes/BuiltinScene");
 
 // 어드레서블 씬 로드
 await GameSceneManager.Instance.LoadAdditiveAsync(
     "Assets/ApeSamples/GameScenes/Addressables/AddressableScene.unity");
+```
 
-// 모든 씬 언로드
+### 모든 씬 언로드
+```csharp
 await GameSceneManager.Instance.UnloadAllAsync();
-````
+```
 
 ***
 
 ## GlobalCanceller: 비동기 작업 일괄 취소
 GlobalCanceller는 모든 비동기 작업을 일괄적으로 취소할 수 있는 전역 토큰을 제공하여, 씬 전환이나 게임 종료 시 남아있는 작업을 깔끔하게 정리합니다.
 
-### 사용법
-````
+### 비동기 작업 시작 및 모든 작업 취소
+```csharp
 ...
 private async UniTask LogLoopAsync(CancellationToken cancellationToken)
 {
@@ -121,18 +126,23 @@ private async UniTask LogLoopAsync(CancellationToken cancellationToken)
 ...
 
 // 전역 취소 토큰을 사용하는 비동기 작업 시작
-LoopAsync(GlobalCanceller.Instance.GetCancellationToken()).Forget();
+LogLoopAsync(GlobalCanceller.Instance.GetCancellationToken()).Forget();
 
 // 전역 + MonoBehaviour 파괴 결합 토큰을 사용하는 비동기 작업 시작
-LoopAsync(GlobalCanceller.Instance.GetLinkedToken(this.GetCancellationTokenOnDestroy())).Forget();
+LogLoopAsync(GlobalCanceller.Instance.GetLinkedToken(this.GetCancellationTokenOnDestroy())).Forget();
 
 // 모든 작업을 취소
 GlobalCanceller.Instance.CancelAll();
-````
+```
 
 ***
 
 ## DataModel
+
+### 사용법
+```csharp
+
+```
 
 ***
 
