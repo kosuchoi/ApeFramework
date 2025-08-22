@@ -2,12 +2,13 @@
 
 ApeFramework는 Unity 기반의 게임 개발 프레임워크입니다. 다양한 매니저 시스템을 통해 복잡한 작업을 단순화하고, 개발 효율성을 높이는 것을 목표로 합니다.
 
+***
+
 ## GameAsset: 자산 통합 관리
 Unity 프로젝트의 자산(Asset)을 통합 관리하는 시스템입니다. Unity의 Resources와 Addressables는 각기 다른 로드 방식과 메모리 관리 규칙을 가지고 있어 함께 사용할 때 복잡성을 야기하고 메모리 누수를 일으키기 쉽습니다. 이를 하나의 통일된 인터페이스로 제공하고, 정확한 시점에 메모리를 자동으로 해제하여 안정성과 개발 편의성을 높입니다.
 * 통합 로드: Resources와 Addressables를 자동으로 구분하여 자산을 로드합니다.
 * 자동 메모리 관리: GameObject의 수명에 맞춰 자산 핸들을 자동으로 해제할수 있습니다.
 * 인스펙터 기반 UI: 런타임 정보를 인스펙터 창에서 실시간으로 확인할 수 있습니다.
-
 
 ### 인스턴스화
 
@@ -32,7 +33,7 @@ sequenceDiagram
 ```
 
 ### 전체 해제
- 
+
 ```mermaid
 sequenceDiagram
     participant UserCode as 유저 코드
@@ -74,11 +75,14 @@ sequenceDiagram
 _ = await GameAssetManager.Instance.InstantiateAsync("ResourcesPrefab");
 
 // Addressables 자산을 로드(로드된 자산의 수명이 해당 게임 오브젝트의 수명에 종속됩니다.)
-_ = await GameAssetManager.Instance.LoadAsync<Material>("Assets/ApeSamples/GameAsset/Addressables/AddressableMaterial.mat", gameObject);
+_ = await GameAssetManager.Instance.LoadAsync<Material>(
+    "Assets/ApeSamples/GameAsset/Addressables/AddressableMaterial.mat", gameObject);
 
 // 모든 자산을 한 번에 언로드
 await GameAssetManager.Instance.UnloadAllAsync();
 ````
+
+***
 
 ## GameScene: 씬 통합 관리
 통합 씬 로드: Built-in 씬과 Addressables 씬을 동일한 방식으로 관리합니다.
@@ -89,14 +93,17 @@ await GameAssetManager.Instance.UnloadAllAsync();
 ### 사용법
 ````
 // 빌트인 씬 로드
-await GameScenes.Instance.LoadAdditiveAsync("ApeSamples/GameScenes/BuiltinScenes/BuiltinScene");
+await GameSceneManager.Instance.LoadAdditiveAsync("ApeSamples/GameScenes/BuiltinScenes/BuiltinScene");
 
 // 어드레서블 씬 로드
-await GameScenes.Instance.LoadAdditiveAsync("Assets/ApeSamples/GameScenes/Addressables/AddressableScene.unity");
+await GameSceneManager.Instance.LoadAdditiveAsync(
+    "Assets/ApeSamples/GameScenes/Addressables/AddressableScene.unity");
 
 // 모든 씬 언로드
-await GameScenes.Instance.UnloadAllAsync();
+await GameSceneManager.Instance.UnloadAllAsync();
 ````
+
+***
 
 ## GlobalCanceller: 비동기 작업 일괄 취소
 GlobalCanceller는 모든 비동기 작업을 일괄적으로 취소할 수 있는 전역 토큰을 제공하여, 씬 전환이나 게임 종료 시 남아있는 작업을 깔끔하게 정리합니다.
@@ -122,3 +129,11 @@ LoopAsync(GlobalCanceller.Instance.GetLinkedToken(this.GetCancellationTokenOnDes
 // 모든 작업을 취소
 GlobalCanceller.Instance.CancelAll();
 ````
+
+***
+
+## DataModel
+
+***
+
+## UI
