@@ -55,6 +55,64 @@ internal List<GameAssetsHandle> Handles { get; } = new();
 
 ### 시퀀스 다이어그램
 
+```mermaid
+sequenceDiagram
+    participant UserCode as 유저 코드
+    participant GameAssetManager
+    participant AssetHandleReleaserBase
+
+    title 자산 로드 및 관리 과정
+
+    UserCode->>GameAssetManager: InstantiateAsync(path)
+    activate GameAssetManager
+    Note right of GameAssetManager: Resources 요청
+    GameAssetManager->>GameAssetManager: InstantiateResourcesAsync(path)
+    alt Resources에서 찾지 못할 경우
+    Note right of GameAssetManager: Addressables 요청
+        GameAssetManager->>GameAssetManager: InstantiateAsyncFromAddressables(path)
+    end
+    GameAssetManager->>AssetHandleReleaserBase: AddHandle(GameAssetsHandle)
+    Note right of AssetHandleReleaserBase: 자산 핸들을 관리 목록에 추가
+    GameAssetManager-->>UserCode: 로드된 자산 반환
+    deactivate GameAssetManager
+```
+
+```mermaid
+sequenceDiagram
+    participant UserCode as 유저 코드
+    participant GameAssetManager
+    participant AssetHandleReleaserBase
+
+    title GameAssets의 InstantiateAsync 과정
+
+    UserCode->>GameAssetManager: UnloadAll()
+    activate GameAssetManager
+    GameAssets->>AssetHandleReleaserBase: ReleaseHandles()
+    activate AssetHandleReleaserBase
+    Note right of AssetHandleReleaserBase: 각 릴리저에게 핸들 해제 요청
+    AssetHandleReleaserBase->>AssetHandleReleaserBase: ReleaseHandles()
+    alt Resources 핸들일 경우
+    AssetHandleReleaserBase->>AssetHandleReleaserBase: Resources.UnloadAsset()
+    else Addressables 핸들일 경우
+    AssetHandleReleaserBase->>AssetHandleReleaserBase: Addressables.Release()
+    end
+    deactivate GameAssetManager
+    deactivate AssetHandleReleaserBase
+```
+
+```mermaid
+sequenceDiagram
+    participant AssetHandleReleaserBase
+
+    title 자동 해제 과정
+
+    Note over AssetHandleReleaserBase: 게임 오브젝트 파괴 시
+    AssetHandleReleaserBase->>AssetHandleReleaserBase: ReleaseHandles()
+    activate AssetHandleReleaserBase
+    Note right of AssetHandleReleaserBase: 관리 중인 모든 자산 핸들을 해제
+    deactivate AssetHandleReleaserBase
+```
+
 
 ## GameScenes: 씬 통합 관리
 통합 씬 로드: Built-in 씬과 Addressables 씬을 동일한 방식으로 관리합니다.
@@ -140,5 +198,4 @@ await WaitForTurnAsync(cancellationToken);
 }
 ````
 
-<img width="906" height="845" alt="image" src="https://github.com/user-attachments/assets/6cf4602d-bce1-482a-b83b-3fcf0263b26a" />
 
