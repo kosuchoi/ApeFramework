@@ -137,13 +137,31 @@ GlobalCanceller.Instance.CancelAll();
 
 ***
 
-## DataModel
+## DataModel: 데이터 모델 관리
+데이터 모델을 관리하는 시스템입니다. 키(Key)의 유무와 타입에 따라 NoKey, LongKey, StringKey 세 가지 유형의 데이터 모델을 효율적으로 관리할 수 있습니다. TryGet과 TryCreate 메소드를 통해 데이터 모델을 안전하게 가져오거나 생성할 수 있습니다.
 
-### 사용법
+### TryCreate: 새로운 데이터 모델 인스턴스를 생성하고 관리 목록에 추가합니다.
 ```csharp
+// Long 키 데이터 모델 생성하기
+DataModelManager.Instance.TryCreate<PlayerDataModel>(123L, out var playerDataModel);
+```
 
+### TryGet: 저장된 데이터 모델을 키 타입에 따라 가져옵니다.
+```csharp
+// 키가 없는 데이터 모델 가져오기
+DataModelManager.Instance.TryGet<GameSettingsDataModel>(out var myDataModel);
+```
+
+### Remove: 더 이상 필요 없는 데이터 모델을 제거합니다.
+```csharp
+// String 키 데이터 모델 제거하기
+DataModelManager.Instance.Remove<ItemDataModel>("sword_1");
 ```
 
 ***
 
-## UI
+## UI: 뷰-프레젠터 패턴
+UI 시스템은 뷰(View)와 프레젠터(Presenter)를 분리하는 MVP 패턴을 기반으로 설계되었습니다.
+* 유지보수 용이: UI의 시각적 요소(View)와 비즈니스 로직(Presenter)이 완전히 분리되어 있어, 둘 중 하나를 수정해도 다른 쪽에 영향을 주지 않습니다.
+* 재사용성: 동일한 프레젠터를 여러 개의 다른 뷰(예: 세로형 UI, 가로형 UI)와 연결하여 사용할 수 있습니다.
+* 테스트 용이: 프레젠터는 유니티 의존성이 없기 때문에 유니티 환경 없이도 순수한 C# 코드로 단위 테스트(Unit Test)를 수행하기가 매우 용이합니다.

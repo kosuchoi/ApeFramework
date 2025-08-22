@@ -1,6 +1,6 @@
 ﻿namespace Ape.Sample.UI
 {
-    public class VerticalAccountViewBase : AccountViewBase
+    public class VerticalAccountView : AccountViewBase
     {
         protected override string nicknameTextPath => "Nickname/ValueText";
         protected override string levelTextPath => "Level/ValueText";
