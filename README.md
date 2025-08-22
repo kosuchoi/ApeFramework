@@ -140,3 +140,5 @@ await WaitForTurnAsync(cancellationToken);
 }
 ````
 
+<img width="906" height="845" alt="image" src="https://github.com/user-attachments/assets/6cf4602d-bce1-482a-b83b-3fcf0263b26a" />
+
