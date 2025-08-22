@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_GUID: 571f4e8438dc71642ac04af14e94c36c
+  m_SerializeEntries:
+  - m_GUID: 5e2de4efcf2573e47a4b08b067638ad2
+    m_Address: Assets/ApeSample/GameAsset/Addressables/AddressablesPrefab.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7a364f110842f3a49bb60e9da5fc41e1
+    m_Address: Assets/ApeSample/GameAsset/Addressables/AddressableMaterial.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bff9430b8e3f805479421eacda13dbc9
+    m_Address: Assets/ApeSample/GameScene/Addressables/AddressableScene.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: dd505c6433a9e7d49baa1c89ce8d69d2, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: df3219823d293404faeae6bd41bf624a, type: 2}
+    - {fileID: 11400000, guid: 55859f5b87394fe4e8862d02c880bcbb, type: 2}

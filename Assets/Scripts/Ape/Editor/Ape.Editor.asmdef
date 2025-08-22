@@ -1,0 +1,20 @@
+{
+    "name": "Ape.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:67ed42782e69d214dadb73b84c9f1e42",
+        "GUID:8aed51517aa22184187a12def1d831a9",
+        "GUID:84651a3751eca9349aac36a66bba901b"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
